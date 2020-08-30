@@ -1,4 +1,4 @@
-package io.keepcoding.eh_ho_sonia
+package io.keepcoding.eh_ho_sonia.login
 
 import android.content.Context
 import android.os.Bundle
@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import io.keepcoding.eh_ho_sonia.R
 import io.keepcoding.eh_ho_sonia.data.SignUpModel
+import io.keepcoding.eh_ho_sonia.inflate
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 import java.lang.IllegalArgumentException
 
@@ -35,9 +37,9 @@ class SignUpFragment: Fragment() {
 
         buttonSignUp.setOnClickListener {
             val model = SignUpModel(
-                inputUsername.text.toString(),
+                inputSignUpUsername.text.toString(),
                 inputEmail.text.toString(),
-                inputPassword.text.toString()
+                inputSignUpPassword.text.toString()
             )
 
             signUpInteractionListener?.onSignUp(model)

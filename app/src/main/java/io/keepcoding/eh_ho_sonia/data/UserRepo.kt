@@ -65,7 +65,6 @@ object UserRepo {
             Request.Method.POST,
             ApiRoutes.signUp(),
             signUpModel.toJson(),
-            null,
             { response ->
                 val successStatus = response?.getBoolean("success") ?: false
 
@@ -85,7 +84,9 @@ object UserRepo {
                         RequestError(e)
 
                 error(requestError)
-            }
+            },
+            null,
+            false
 
         )
 

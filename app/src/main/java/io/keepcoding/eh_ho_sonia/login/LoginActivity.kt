@@ -12,6 +12,9 @@ import io.keepcoding.eh_ho_sonia.data.SignUpModel
 import io.keepcoding.eh_ho_sonia.data.UserRepo
 import io.keepcoding.eh_ho_sonia.topics.TopicsActivity
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_login.container
+import kotlinx.android.synthetic.main.fragment_sign_in.*
+import kotlinx.android.synthetic.main.fragment_sign_up.*
 
 class LoginActivity : AppCompatActivity(),
     SignInFragment.SignInInteractionListener,
@@ -81,24 +84,22 @@ class LoginActivity : AppCompatActivity(),
 
     override fun onSignIn(signInModel: SignInModel) {
         enableLoading()
-        UserRepo.signIn(this.applicationContext,
-            signInModel,
-            { showTopics() },
-            { error ->
-                enableLoading(false)
-                handleError(error)
-            }
-        )
+        if (isFormValid("signIn")) {
+            UserRepo.signIn(this.applicationContext,
+                signInModel,
+                { showTopics() },
+                { error ->
+                    enableLoading(false)
+                    handleError(error)
+                }
+            )
+        } else {
+            enableLoading(false)
+            showErrors("signIn")
+        }
+
     }
 
-    private fun handleError(error: RequestError) {
-        if (error.messageResId != null)
-            Snackbar.make(container, error.messageResId, Snackbar.LENGTH_LONG).show()
-        else if(error.message != null)
-            Snackbar.make(container, error.message, Snackbar.LENGTH_LONG).show()
-        else
-            Snackbar.make(container, R.string.error_default, Snackbar.LENGTH_LONG).show()
-    }
 
     override fun onGoToSignIn() {
         supportFragmentManager.beginTransaction()
@@ -108,17 +109,23 @@ class LoginActivity : AppCompatActivity(),
 
     override fun onSignUp(signUpModel: SignUpModel) {
         enableLoading()
-        UserRepo.signUp(this.applicationContext,
-            signUpModel,
-            {
-                enableLoading(false)
-                Snackbar.make(container, R.string.message_sign_up, Snackbar.LENGTH_LONG).show()
-            },
-            {
-                enableLoading(false)
-                handleError(it)
-            }
-        )
+        if (isFormValid("signUp")) {
+            UserRepo.signUp(this.applicationContext,
+                signUpModel,
+                {
+                    enableLoading(false)
+                    Snackbar.make(container, R.string.message_sign_up, Snackbar.LENGTH_LONG).show()
+                },
+                {
+                    enableLoading(false)
+                    handleError(it)
+                }
+            )
+        } else {
+            enableLoading(false)
+            showErrors("signUp")
+        }
+
     }
 
     private fun enableLoading(enabled: Boolean = true)  {
@@ -130,6 +137,53 @@ class LoginActivity : AppCompatActivity(),
             viewLoading.visibility = View.INVISIBLE
         }
 
+    }
+
+    private fun isFormValid(type: String): Boolean {
+        if (type == "signIn") {
+            return inputSignInUsername.text.isNotEmpty() && inputSignInPassword.text.isNotEmpty()
+        }
+        if (type == "signUp") {
+            return inputEmail.text.isNotEmpty()
+                    && inputSignUpUsername.text.isNotEmpty()
+                    && inputSignUpPassword.text.isNotEmpty()
+                    && inputConfirmPassword.text.isNotEmpty()
+        } else { return false }
+    }
+
+    private fun showErrors(type: String) {
+        if (type == "signIn") {
+            if (inputSignInUsername.text.isEmpty())
+                inputSignInUsername.error = getString(R.string.error_empty)
+
+            if (inputSignInPassword.text.isEmpty())
+                inputSignInPassword.error = getString(R.string.error_empty)
+        }
+
+        if (type == "signUp") {
+            if (inputEmail.text.isEmpty())
+                inputEmail.error = getString(R.string.error_empty)
+
+            if (inputSignUpUsername.text.isEmpty())
+                inputSignUpUsername.error = getString(R.string.error_empty)
+
+            if (inputSignUpPassword.text.isEmpty())
+                inputSignUpPassword.error = getString(R.string.error_empty)
+
+            if (inputConfirmPassword.text.isEmpty())
+                inputConfirmPassword.error = getString(R.string.error_empty)
+        }
+
+
+    }
+
+    private fun handleError(error: RequestError) {
+        if (error.messageResId != null)
+            Snackbar.make(container, error.messageResId, Snackbar.LENGTH_LONG).show()
+        else if(error.message != null)
+            Snackbar.make(container, error.message, Snackbar.LENGTH_LONG).show()
+        else
+            Snackbar.make(container, R.string.error_default, Snackbar.LENGTH_LONG).show()
     }
 
     /*

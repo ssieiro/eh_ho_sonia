@@ -12,13 +12,13 @@
         android:hint="@string/hint_email"
         android:inputType="textEmailAddress" />
     <EditText
-        android:id="@+id/inputUsername"
+        android:id="@+id/inputSignUpUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hint_username"
         android:inputType="text" />
     <EditText
-        android:id="@+id/inputPassword"
+        android:id="@+id/inputSignUpPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hint_password"

@@ -42,8 +42,8 @@ class SignInFragment: Fragment() {
         }
         buttonLogin.setOnClickListener{
             val signInModel = SignInModel(
-                inputUsername.text.toString(),
-                inputPassword.text.toString()
+                inputSignInUsername.text.toString(),
+                inputSignInPassword.text.toString()
             )
 
             signInInteractionListener?.onSignIn(signInModel)
