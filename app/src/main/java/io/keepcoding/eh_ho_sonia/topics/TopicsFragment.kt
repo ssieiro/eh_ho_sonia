@@ -82,7 +82,7 @@ class TopicsFragment : Fragment() {
                     },
                     {
                         enableLoading(false)
-                        // TODO: Manejo de errores
+                        this.topicsInteractionListener?.topicsLoadingError()
                     }
                 )
         }
@@ -116,6 +116,8 @@ class TopicsFragment : Fragment() {
         fun onCreateTopic()
         fun onLogout()
         fun onShowPosts(topic: Topic)
+        fun topicsLoadingError()
+        fun retryLoading()
     }
 
 }

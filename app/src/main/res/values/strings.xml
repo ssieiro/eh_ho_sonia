@@ -51,5 +51,7 @@
     <string name="error_default">Something bad happened</string>
     <string name="message_sign_up">Plase check your email to finish the process</string>
     <string name="label_creating_topic">Creating topic</string>
+    <string name="topics_error_message">Oops, something bad happened</string>
+    <string name="topics_error_retry">RETRY</string>
 
 </resources>
