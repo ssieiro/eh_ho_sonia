@@ -10,7 +10,9 @@ import io.keepcoding.eh_ho_sonia.R
 import io.keepcoding.eh_ho_sonia.data.Topic
 import io.keepcoding.eh_ho_sonia.data.TopicsRepo
 import io.keepcoding.eh_ho_sonia.inflate
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_topics.*
+import kotlinx.android.synthetic.main.fragment_topics.viewLoading
 import java.lang.IllegalArgumentException
 
 class TopicsFragment : Fragment() {
@@ -66,23 +68,38 @@ class TopicsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-
         loadTopics()
     }
 
     private fun loadTopics() {
         context?.let {
+            enableLoading()
             TopicsRepo
                 .getTopics(it.applicationContext,
                     {
                         topicsAdapter.setTopics(it)
+                        enableLoading(false)
                     },
                     {
+                        enableLoading(false)
                         // TODO: Manejo de errores
                     }
                 )
         }
+
     }
+
+    private fun enableLoading(enabled: Boolean = true)  {
+        if (enabled) {
+            fragmentLoadingContainer.visibility = View.INVISIBLE
+            viewLoading.visibility = View.VISIBLE
+        } else {
+            fragmentLoadingContainer.visibility = View.VISIBLE
+            viewLoading.visibility = View.INVISIBLE
+        }
+
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.action_logout -> this.topicsInteractionListener?.onLogout()
