@@ -7,6 +7,8 @@ import io.keepcoding.eh_ho_sonia.*
 import io.keepcoding.eh_ho_sonia.data.Topic
 import io.keepcoding.eh_ho_sonia.data.UserRepo
 import io.keepcoding.eh_ho_sonia.login.LoginActivity
+import io.keepcoding.eh_ho_sonia.posts.EXTRA_TOPIC_ID
+import io.keepcoding.eh_ho_sonia.posts.PostsActivity
 
 const val TRANSACTION_CREATE_TOPIC = "create_topic"
 

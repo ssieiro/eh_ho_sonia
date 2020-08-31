@@ -30,7 +30,7 @@
         layout="@layout/view_loading"
         android:visibility="invisible" />
 
-</FrameLayout>
+    </FrameLayout>
 
 
 </LinearLayout>

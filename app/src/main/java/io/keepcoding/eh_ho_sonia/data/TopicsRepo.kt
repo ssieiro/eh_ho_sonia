@@ -88,6 +88,5 @@ object TopicsRepo {
             .add(request)
     }
 
-    fun getTopic(id: String): Topic? = topics.find { it.id == id }
 
 }
