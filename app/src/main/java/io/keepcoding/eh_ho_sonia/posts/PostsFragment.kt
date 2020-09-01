@@ -35,7 +35,7 @@ class PostsFragment(postId: String = ""): Fragment() {
         postAdapter.setPosts(PostsRepo.posts)
 
         listPosts.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        listPosts.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        //listPosts.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         listPosts.adapter = postAdapter
     }
 

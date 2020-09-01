@@ -1,5 +1,7 @@
 package io.keepcoding.eh_ho_sonia.posts
 
+import android.os.Build
+import android.text.Html
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -9,6 +11,8 @@ import io.keepcoding.eh_ho_sonia.inflate
 import io.keepcoding.eh_ho_sonia.topics.TopicsAdapter
 import kotlinx.android.synthetic.main.item_post.view.*
 import java.util.*
+import android.text.Html.FROM_HTML_SEPARATOR_LINE_BREAK_PARAGRAPH
+import androidx.annotation.RequiresApi
 
 
 class PostsAdapter: RecyclerView.Adapter<PostsAdapter.PostHolder>()  {
@@ -37,13 +41,14 @@ class PostsAdapter: RecyclerView.Adapter<PostsAdapter.PostHolder>()  {
 
     inner class PostHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var post: Post? = null
+            @RequiresApi(Build.VERSION_CODES.N)
             set(value) {
                 field = value
                 itemView.tag = field
 
                 field?.let {
                     itemView.labelAuthor.text= it.username
-                    itemView.labelContent.text = it.content
+                    itemView.labelContent.text = Html.fromHtml(it.content, FROM_HTML_SEPARATOR_LINE_BREAK_PARAGRAPH)
                     itemView.labelDate.text = it.date.toString()
                 }
             }
