@@ -68,6 +68,7 @@ CreateTopicFragment.CreateTopicInteractionListener{
             .commit()
     }
 
+
     override fun onTopicCreated() {
         supportFragmentManager.popBackStack()
     }

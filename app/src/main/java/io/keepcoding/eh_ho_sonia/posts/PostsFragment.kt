@@ -6,6 +6,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import io.keepcoding.eh_ho_sonia.R
 import io.keepcoding.eh_ho_sonia.data.Post
 import io.keepcoding.eh_ho_sonia.data.PostsRepo
@@ -20,6 +21,7 @@ class PostsFragment(postId: String = ""): Fragment() {
     val id = postId
     var postInteractionListener: PostsInteractionListener? = null
     var posts: MutableList<Post>? = null
+    var swipeRefreshLayout: SwipeRefreshLayout? = null
 
     private val postAdapter: PostsAdapter by lazy {
         val adapter = PostsAdapter()
@@ -51,6 +53,12 @@ class PostsFragment(postId: String = ""): Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         postAdapter.setPosts(PostsRepo.posts)
+
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout)
+        swipeRefreshLayout?.setOnRefreshListener {
+            loadPosts(postId = this.id)
+        }
+
 
         listPosts.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         listPosts.adapter = postAdapter
@@ -84,10 +92,12 @@ class PostsFragment(postId: String = ""): Fragment() {
                         postAdapter.setPosts(it)
                         topicTitle.text = it[0].topicTitle
                         enableLoading(false)
+                        swipeRefreshLayout?.isRefreshing = false
                     },
                     {
                         enableLoading(false)
                         print("error")
+                        swipeRefreshLayout?.isRefreshing = false
                     },
                     postId
                 )

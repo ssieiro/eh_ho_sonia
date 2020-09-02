@@ -6,11 +6,11 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import io.keepcoding.eh_ho_sonia.R
 import io.keepcoding.eh_ho_sonia.data.Topic
 import io.keepcoding.eh_ho_sonia.data.TopicsRepo
 import io.keepcoding.eh_ho_sonia.inflate
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.fragment_topics.*
 import kotlinx.android.synthetic.main.fragment_topics.viewLoading
 import java.lang.IllegalArgumentException
@@ -18,6 +18,7 @@ import java.lang.IllegalArgumentException
 class TopicsFragment : Fragment() {
 
     var topicsInteractionListener: TopicsInteractionListener? = null
+    var swipeRefreshLayout: SwipeRefreshLayout? = null
 
     private val topicsAdapter: TopicsAdapter by lazy {
         val adapter = TopicsAdapter {
@@ -54,6 +55,13 @@ class TopicsFragment : Fragment() {
             this.topicsInteractionListener?.onCreateTopic()
         }
 
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout)
+        swipeRefreshLayout?.setOnRefreshListener {
+            loadTopics()
+
+        }
+
+
         topicsAdapter.setTopics(TopicsRepo.topics)
 
         listTopics.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -71,6 +79,7 @@ class TopicsFragment : Fragment() {
         loadTopics()
     }
 
+
     private fun loadTopics() {
         context?.let {
             enableLoading()
@@ -79,10 +88,12 @@ class TopicsFragment : Fragment() {
                     {
                         topicsAdapter.setTopics(it)
                         enableLoading(false)
+                        swipeRefreshLayout?.isRefreshing = false
                     },
                     {
                         enableLoading(false)
                         this.topicsInteractionListener?.topicsLoadingError()
+                        swipeRefreshLayout?.isRefreshing = false
                     }
                 )
         }
@@ -100,12 +111,15 @@ class TopicsFragment : Fragment() {
 
     }
 
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.action_logout -> this.topicsInteractionListener?.onLogout()
         }
         return super.onOptionsItemSelected(item)
     }
+
+
 
     override fun onDetach() {
         super.onDetach()
@@ -119,5 +133,7 @@ class TopicsFragment : Fragment() {
         fun topicsLoadingError()
         fun retryLoading()
     }
+
+
 
 }
