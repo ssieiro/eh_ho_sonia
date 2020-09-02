@@ -8,6 +8,7 @@ import io.keepcoding.eh_ho_sonia.data.Topic
 import io.keepcoding.eh_ho_sonia.data.UserRepo
 import io.keepcoding.eh_ho_sonia.login.LoginActivity
 import io.keepcoding.eh_ho_sonia.posts.EXTRA_TOPIC_ID
+import io.keepcoding.eh_ho_sonia.posts.EXTRA_TOPIC_TITLE
 import io.keepcoding.eh_ho_sonia.posts.PostsActivity
 
 const val TRANSACTION_CREATE_TOPIC = "create_topic"
@@ -29,6 +30,7 @@ CreateTopicFragment.CreateTopicInteractionListener{
     private fun goToPosts(topic: Topic) {
         val intent = Intent(this, PostsActivity::class.java)
         intent.putExtra(EXTRA_TOPIC_ID, topic.id)
+        intent.putExtra(EXTRA_TOPIC_TITLE, topic.title)
         startActivity(intent)
     }
 

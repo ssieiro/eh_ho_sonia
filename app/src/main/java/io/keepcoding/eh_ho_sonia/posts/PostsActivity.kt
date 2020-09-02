@@ -9,18 +9,34 @@ import io.keepcoding.eh_ho_sonia.topics.TopicsFragment
 import kotlinx.android.synthetic.main.activity_posts.*
 
 const val EXTRA_TOPIC_ID = "TOPIC_ID"
+const val EXTRA_TOPIC_TITLE = "TOPIC_TITLE"
+const val TRANSACTION_CREATE_POST = "create_post"
 
-class PostsActivity : AppCompatActivity() {
+class PostsActivity : AppCompatActivity(), PostsFragment.PostsInteractionListener, CreatePostFragment.CreatePostInteractionListener {
+    var topicID: String = ""
+    var topicTitle: String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_posts)
 
-        val topicID = intent.getStringExtra(EXTRA_TOPIC_ID) ?: ""
+        this.topicID = intent.getStringExtra(EXTRA_TOPIC_ID) ?: ""
+        this.topicTitle = intent.getStringExtra(EXTRA_TOPIC_TITLE) ?: ""
+
 
         supportFragmentManager.beginTransaction()
-            .add(R.id.fragmentContainer, PostsFragment(topicID))
+            .add(R.id.fragmentContainer, PostsFragment(this.topicID))
             .commit()
 
+    }
 
+    override fun onPostCreated() {
+        supportFragmentManager.popBackStack()
+    }
+
+    override fun onCreatePost() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, CreatePostFragment(topicID, topicTitle))
+            .addToBackStack(TRANSACTION_CREATE_POST)
+            .commit()
     }
 }

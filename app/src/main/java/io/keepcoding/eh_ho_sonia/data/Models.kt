@@ -103,6 +103,7 @@ data class Topic(
 }
 
 data class Post (
+    val topicTitle: String = "",
     val id: String = "",
     val username: String = "",
     val date: String = "",
@@ -115,14 +116,14 @@ data class Post (
             val posts = mutableListOf<Post>()
 
             for (i in 0 until objectList.length()) {
-                val parsedPost = parsePost(objectList.getJSONObject(i))
+                val parsedPost = parsePost(objectList.getJSONObject(i), response)
                 posts.add(parsedPost)
             }
             return posts
 
         }
 
-        fun parsePost (jsonObject: JSONObject): Post {
+        fun parsePost (jsonObject: JSONObject, response: JSONObject): Post {
             val date = jsonObject.getString("created_at")
                 .replace("Z", "+0000")
 
@@ -134,6 +135,7 @@ data class Post (
 
 
             return Post (
+                topicTitle = response.getString("title"),
                 id = jsonObject.getInt("id").toString(),
                 username = jsonObject.getString("username"),
                 date = dateFormattedString,

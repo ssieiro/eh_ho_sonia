@@ -7,7 +7,6 @@ import com.android.volley.ServerError
 import com.android.volley.toolbox.JsonObjectRequest
 import io.keepcoding.eh_ho_sonia.R
 import org.json.JSONObject
-import java.nio.charset.Charset
 
 object TopicsRepo {
 
@@ -52,7 +51,7 @@ object TopicsRepo {
         val username = UserRepo.getUsername(context)
         val request = PostRequest(
             Request.Method.POST,
-            ApiRoutes.createTopic(),
+            ApiRoutes.createTopicOrPost(),
             model.toJson(),
             {
                 onSuccess(model)
