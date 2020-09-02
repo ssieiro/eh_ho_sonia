@@ -13,6 +13,7 @@ import io.keepcoding.eh_ho_sonia.data.TopicsRepo
 import io.keepcoding.eh_ho_sonia.inflate
 import kotlinx.android.synthetic.main.fragment_topics.*
 import kotlinx.android.synthetic.main.fragment_topics.viewLoading
+import kotlinx.android.synthetic.main.view_topics_error.*
 import java.lang.IllegalArgumentException
 
 class TopicsFragment : Fragment() {
@@ -61,6 +62,10 @@ class TopicsFragment : Fragment() {
 
         }
 
+        buttonRetry.setOnClickListener {
+            this.topicsInteractionListener?.retryLoading()
+        }
+
 
         topicsAdapter.setTopics(TopicsRepo.topics)
 
@@ -92,7 +97,8 @@ class TopicsFragment : Fragment() {
                     },
                     {
                         enableLoading(false)
-                        this.topicsInteractionListener?.topicsLoadingError()
+                        fragmentErrorContainer.visibility = View.VISIBLE
+                        viewError.visibility = View.VISIBLE
                         swipeRefreshLayout?.isRefreshing = false
                     }
                 )
@@ -130,7 +136,6 @@ class TopicsFragment : Fragment() {
         fun onCreateTopic()
         fun onLogout()
         fun onShowPosts(topic: Topic)
-        fun topicsLoadingError()
         fun retryLoading()
     }
 

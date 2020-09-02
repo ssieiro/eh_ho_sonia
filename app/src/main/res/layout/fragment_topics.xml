@@ -38,12 +38,22 @@
             android:id="@+id/fragmentLoadingContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-
         <include
             android:id="@+id/viewLoading"
             layout="@layout/view_loading"
             android:visibility="invisible" />
 
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fragmentErrorContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <include
+            android:id="@+id/viewError"
+            layout="@layout/view_topics_error"
+            android:visibility="invisible" />
+            />
     </FrameLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

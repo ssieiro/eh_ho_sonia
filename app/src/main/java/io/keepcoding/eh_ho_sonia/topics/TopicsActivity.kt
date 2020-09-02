@@ -56,12 +56,6 @@ CreateTopicFragment.CreateTopicInteractionListener{
         goToPosts(topic)
     }
 
-    override fun topicsLoadingError() {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, TopicsErrorFragment())
-            .commit()
-    }
-
     override fun retryLoading() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, TopicsFragment())
